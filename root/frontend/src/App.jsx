@@ -96,6 +96,41 @@ class App extends Component {
     }
   }
 
+
+  addUserToAPI() {
+    let apiURL = "http://localhost:4001/users/"
+    let jsonReq = {
+      "username": "sebastian2",
+      "password_hash": "password2",
+      "account_type": "student",
+      "degree_map": [
+        {
+          "major": "Comp-sci",
+          "catalog_year": "2019",
+          "total_credits_needed": "10",
+          "credits_needed_by_category": "5 each"
+        }
+      ]
+    }
+    -(apiURL, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(jsonReq),
+      mode: 'cors'
+    }).then( (response) => {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      console.log("hot dog, ", response)
+      return response.json();
+    }).then( (res) => {
+      //localStorage.setItem('username', data.username);
+      //localStorage.setItem('token', res.token);
+      console.log("got here, ", res);
+      //dispatch(userLoggedIn(data.username));
+    }).catch( (e) => console.error(e) );
+  };
+
   /*** function for reading an uploaded file and parsing it to JSON ***/
   onUploadFile(files) {
     let reader = new FileReader();
@@ -451,7 +486,8 @@ class App extends Component {
         </div>
         <div className='header-options'>
           <div className="credit-count">{`${takenHours}/${neededHours} taken credits`}</div>
-          <div className='spacer'></div>
+          <div className='spacer'></div> 
+          <button onClick={() => this.addUserToAPI()}>Add User to API</button>
           <AddCustomSemester onSubmit={this.onAddSemesterSubmit} />
           <AddCustomClass
             onSubmit={this.onAddClassSubmit}
