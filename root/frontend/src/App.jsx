@@ -13,7 +13,7 @@ import saveAs from 'file-saver';
 import Dropzone from 'react-dropzone';
 import AddCustomSemester from './CustomSemesterModal';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import LoginButton from './LoginButton.jsx'
+import LoginModal from './LoginModal.jsx'
 
 class App extends Component {
   constructor(props) {
@@ -424,7 +424,7 @@ class App extends Component {
           <Navbar.Brand> <img src="src/dragonlogo.png" height="50px" width="50px"></img>Course Dragon</Navbar.Brand>
           <Nav>
             <Nav.Link>
-              <LoginButton/>
+              <LoginModal/>
             </Nav.Link>
             <Nav.Link
               className={(this.state.Display === 'Flow') ? 'active' : 'inactive'}
