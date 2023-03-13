@@ -4,6 +4,9 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 import connectDB from "./config/db.js";
+import passport from "passport";
+import saml from "passport-saml";
+import fs from "fs";
 
 //--------------- List of Route Resources (add new file paths to routes here) ---------------
 import homeRoutes from "./api/home/homeRoutes.js"
@@ -41,6 +44,35 @@ app.use("/degree-map", degreeMapRoutes);
 /*app.get("/", (req, res) => {
   res.send("employee backende erisildi");
 });*/
+
+passport.use(new SamlStrategy(
+  {
+    path: '/login/callback',
+    entryPoint: 'https://openidp.feide.no/simplesaml/saml2/idp/SSOService.php',
+    issuer: 'passport-saml',
+    cert: 'fake cert', // cert must be provided
+  },
+  function(profile, done) {
+    findByEmail(profile.email, function(err, user) {
+      if (err) {
+        return done(err);
+      }
+      return done(null, user);
+    });
+  })
+);
+
+
+app.route("/metadata").get(function(req, res) {
+  res.type("application/xml");
+  res.status(200);
+  res.send(
+  Strategy.generateServiceProviderMetadata(
+      fs.readFileSync("./certs/cert.pem", "utf8"),
+      fs.readFileSync("./certs/cert.pem", "utf8")
+  )
+  );
+});
 
 // Begin listening on the server
 app.listen(PORT, () => {

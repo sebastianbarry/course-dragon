@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import StatusButtons from './StatusButtons';
+//import Passport from 'passport';
 
 
 /*** Function to create a modal to add a custom class ***/
@@ -11,6 +12,10 @@ function LoginButton (props) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleSubmit = () => {
+
+  }
 
   // create Modal with form
   return (
@@ -41,7 +46,7 @@ function LoginButton (props) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="success" onClick={() => console.log("\nLogin button clicked!")}>
+          <Button variant="success" onClick={handleSubmit}>
             Login
           </Button>
         </Modal.Footer>
